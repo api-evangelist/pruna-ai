@@ -1,0 +1,254 @@
+openapi: 3.0.3
+info:
+  title: P Content Delivery API
+  description: 'P-API provides access to multiple AI models for image generation,
+
+    video generation, and image-to-video transformation. The API supports both asynchronous
+
+    and synchronous workflows:
+
+
+    **Asynchronous Workflow (default):**
+
+    1. **POST /v1/predictions** - Submit a generation request
+
+    2. **GET /v1/predictions/status/{id}** - Check prediction status and get results
+
+    3. **GET /v1/predictions/delivery/{path}** - Download the generated content
+
+
+    **Synchronous Workflow (with Try-Sync header):**
+
+    1. **POST /v1/predictions** with `Try-Sync: true` header - Submit a generation
+
+    request and wait up to 60 seconds for completion.
+
+
+    The API exposes 20 AI models across different categories:
+
+    - **Text-to-Image**: p-image, p-image-lora, flux-dev, flux-2-klein-4b, wan-image-small, qwen-image, qwen-image-fast, z-image-turbo, z-image-turbo-lora
+
+    - **Image Editing**: p-image-edit, p-image-edit-lora, qwen-image-edit-plus, flux-dev-lora
+
+    - **Image Upscaling**: p-image-upscale
+
+    - **Virtual Try-On**: p-image-try-on
+
+    - **Text-to-Video**: wan-t2v
+
+    - **Image-to-Video**: wan-i2v
+
+    - **Text-to-Video/Image-to-Video**: p-video
+
+    - **Avatar Video Generation**: p-video-avatar
+
+    - **Video Animation**: p-video-animate
+
+    - **Video Replacement**: p-video-replace
+
+    - **Video Generation/Editing**: vace
+
+
+    **LoRA Trainers:**
+
+    - **p-image-trainer**: Train custom LoRA models for p-image
+
+    - **p-image-edit-trainer**: Train custom LoRA models for p-image-edit
+
+
+    Trainers have a lower rate limit (5 requests/minute) and return training job status.
+
+
+    For detailed model documentation, see: https://docs.api.pruna.ai/guides/models
+
+
+    All requests require API key authentication via the `apikey` header.
+
+    '
+  version: 0.5.3
+  contact:
+    name: Pruna AI Support
+    email: support@pruna.ai
+servers:
+- url: https://api.pruna.ai
+  description: Production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Content Delivery
+  description: Download generated content files
+paths:
+  /v1/predictions/delivery/{path}:
+    get:
+      summary: Download generated content
+      description: 'Download the generated content file. This is the third and final
+
+        step in the workflow.
+
+
+        Use the `generation_url` from the prediction status response directly - no path extraction needed.
+
+        Simply make a GET request to that URL with your API key.
+
+
+        Rate limit: 10,000 requests per minute.
+
+        '
+      operationId: downloadContent
+      tags:
+      - Content Delivery
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: The delivery path returned in the prediction status response
+        schema:
+          type: string
+          example: xezq/52UGYRrRfqViaKmvYsEnENTh0qLDAWHptQ8jOnEHu7XC6AtKA/output_42_0.jpeg
+      responses:
+        '200':
+          description: Content file downloaded successfully
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+                description: Generated image file
+            image/png:
+              schema:
+                type: string
+                format: binary
+                description: Generated image file
+            image/webp:
+              schema:
+                type: string
+                format: binary
+                description: Generated image file
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+                description: Generated video file
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+                description: Generated content file
+          headers:
+            Content-Type:
+              description: The MIME type of the generated content
+              schema:
+                type: string
+              example: image/jpeg
+            Content-Length:
+              description: The size of the file in bytes
+              schema:
+                type: integer
+              example: 2048576
+            Content-Disposition:
+              description: Suggested filename for download
+              schema:
+                type: string
+              example: attachment; filename="output_42_0.jpeg"
+            Cache-Control:
+              description: Caching directives
+              schema:
+                type: string
+              example: public, max-age=3600
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '410':
+          description: Content expired or no longer available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: CONTENT_EXPIRED
+                  message: The requested content has expired and is no longer available
+                  details: Generated content is available for 24 hours after creation
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: INTERNAL_ERROR
+              message: An unexpected error occurred
+              details: Please try again later or contact support if the problem persists
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: AUTHENTICATION_FAILED
+              message: Invalid or missing API key
+              details: Include your API key in the 'apikey' header
+            request_id: req_1234567890
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: NOT_FOUND
+              message: The requested resource was not found
+              details: Prediction ID does not exist or has expired
+            request_id: req_1234567890
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: string
+              description: Additional error context
+        request_id:
+          type: string
+          description: Unique request identifier for debugging
+          example: req_1234567890
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: apikey
+      description: 'API key for authentication. You can obtain your API key from the
+
+        Pruna AI dashboard.
+
+
+        Include it in the `apikey` header for all requests.
+
+        '
+externalDocs:
+  description: Model Documentation
+  url: https://docs.api.pruna.ai

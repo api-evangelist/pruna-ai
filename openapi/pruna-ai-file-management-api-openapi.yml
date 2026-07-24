@@ -1,0 +1,327 @@
+openapi: 3.0.3
+info:
+  title: P Content Delivery File Management API
+  description: 'P-API provides access to multiple AI models for image generation,
+
+    video generation, and image-to-video transformation. The API supports both asynchronous
+
+    and synchronous workflows:
+
+
+    **Asynchronous Workflow (default):**
+
+    1. **POST /v1/predictions** - Submit a generation request
+
+    2. **GET /v1/predictions/status/{id}** - Check prediction status and get results
+
+    3. **GET /v1/predictions/delivery/{path}** - Download the generated content
+
+
+    **Synchronous Workflow (with Try-Sync header):**
+
+    1. **POST /v1/predictions** with `Try-Sync: true` header - Submit a generation
+
+    request and wait up to 60 seconds for completion.
+
+
+    The API exposes 20 AI models across different categories:
+
+    - **Text-to-Image**: p-image, p-image-lora, flux-dev, flux-2-klein-4b, wan-image-small, qwen-image, qwen-image-fast, z-image-turbo, z-image-turbo-lora
+
+    - **Image Editing**: p-image-edit, p-image-edit-lora, qwen-image-edit-plus, flux-dev-lora
+
+    - **Image Upscaling**: p-image-upscale
+
+    - **Virtual Try-On**: p-image-try-on
+
+    - **Text-to-Video**: wan-t2v
+
+    - **Image-to-Video**: wan-i2v
+
+    - **Text-to-Video/Image-to-Video**: p-video
+
+    - **Avatar Video Generation**: p-video-avatar
+
+    - **Video Animation**: p-video-animate
+
+    - **Video Replacement**: p-video-replace
+
+    - **Video Generation/Editing**: vace
+
+
+    **LoRA Trainers:**
+
+    - **p-image-trainer**: Train custom LoRA models for p-image
+
+    - **p-image-edit-trainer**: Train custom LoRA models for p-image-edit
+
+
+    Trainers have a lower rate limit (5 requests/minute) and return training job status.
+
+
+    For detailed model documentation, see: https://docs.api.pruna.ai/guides/models
+
+
+    All requests require API key authentication via the `apikey` header.
+
+    '
+  version: 0.5.3
+  contact:
+    name: Pruna AI Support
+    email: support@pruna.ai
+servers:
+- url: https://api.pruna.ai
+  description: Production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: File Management
+  description: Upload files to be used as input for predictions
+paths:
+  /v1/files:
+    post:
+      summary: Upload a file
+      description: "Upload a file (image or video) to be used as input for predictions.\nThe uploaded file will be stored temporarily and can be referenced in prediction\nrequests by its URL.\n\nUploaded files are available for 30 minutes after upload\nand are automatically deleted after expiration. Use the returned URL in\nyour prediction input fields that accept file URLs.\n\n**Rate limit:** 10000 requests per minute\n\n**Example with curl:**\n```bash\ncurl -X POST \"https://api.pruna.ai/v1/files\" \\\n  -H \"apikey: YOUR_API_KEY\" \\\n  -F \"content=@/path/to/your/file.jpg\"\n```\n\nNote: Use `-F` (form) with `@` prefix to upload a file from your local filesystem.\n"
+      operationId: uploadFile
+      tags:
+      - File Management
+      security:
+      - ApiKeyAuth: []
+      x-codeSamples:
+      - lang: Shell
+        label: cURL
+        source: "curl -X POST \"https://api.pruna.ai/v1/files\" \\\n  -H \"apikey: YOUR_API_KEY\" \\\n  -F \"content=@/path/to/your/file.jpg\"\n"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - content
+              properties:
+                content:
+                  type: string
+                  format: binary
+                  description: The file to upload (image or video)
+      responses:
+        '201':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileUploadResponse'
+              example:
+                id: fqadqq42xq
+                name: test.jpg
+                content_type: image/jpeg
+                size: 185093
+                etag: '"14e9a51deaac6bee2dd8b5c52d7d0b5f"'
+                checksums:
+                  sha256: aa10d5d09bcee5cb5d854bd81899308b0cf0c0c50e29d4f00c2c06e51f0e2fe6
+                metadata:
+                  content_length: 185093
+                  width: 1344
+                  height: 768
+                created_at: '2025-01-08T18:51:26.729Z'
+                expires_at: '2025-01-09T18:51:26.729Z'
+                urls:
+                  get: https://api.pruna.ai/v1/files/fqadqq42xq
+        '400':
+          description: Invalid file or missing content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INVALID_FILE
+                  message: The uploaded file is invalid or missing
+                  details: Please provide a valid image or video file
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '413':
+          description: File too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: FILE_TOO_LARGE
+                  message: The uploaded file exceeds the maximum size limit
+                  details: Maximum file size is 100MB
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    FileUploadResponse:
+      type: object
+      required:
+      - id
+      - name
+      - content_type
+      - size
+      - created_at
+      - expires_at
+      - urls
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the uploaded file
+          example: fqadqq42xq
+        name:
+          type: string
+          description: Original filename
+          example: test.jpg
+        content_type:
+          type: string
+          description: MIME type of the uploaded file
+          example: image/jpeg
+        size:
+          type: integer
+          description: File size in bytes
+          example: 185093
+        etag:
+          type: string
+          description: Entity tag for cache validation
+          example: '"14e9a51deaac6bee2dd8b5c52d7d0b5f"'
+        checksums:
+          type: object
+          description: File integrity checksums
+          properties:
+            sha256:
+              type: string
+              description: SHA-256 hash of the file content
+              example: aa10d5d09bcee5cb5d854bd81899308b0cf0c0c50e29d4f00c2c06e51f0e2fe6
+        metadata:
+          type: object
+          description: Additional file metadata (varies by file type)
+          properties:
+            content_length:
+              type: integer
+              description: Content length in bytes
+              example: 185093
+            width:
+              type: integer
+              description: Image width in pixels (for images only)
+              example: 1344
+            height:
+              type: integer
+              description: Image height in pixels (for images only)
+              example: 768
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the file was uploaded
+          example: '2025-01-08T18:51:26.729Z'
+        expires_at:
+          type: string
+          format: date-time
+          description: Timestamp when the file will expire and be deleted
+          example: '2025-01-09T18:51:26.729Z'
+        urls:
+          type: object
+          description: URLs to access the uploaded file
+          required:
+          - get
+          properties:
+            get:
+              type: string
+              format: uri
+              description: URL to retrieve the file. Use this URL in prediction input fields that accept file URLs.
+              example: https://api.pruna.ai/v1/files/fqadqq42xq
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: string
+              description: Additional error context
+        request_id:
+          type: string
+          description: Unique request identifier for debugging
+          example: req_1234567890
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: INTERNAL_ERROR
+              message: An unexpected error occurred
+              details: Please try again later or contact support if the problem persists
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: AUTHENTICATION_FAILED
+              message: Invalid or missing API key
+              details: Include your API key in the 'apikey' header
+            request_id: req_1234567890
+    RateLimitExceeded:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: RATE_LIMIT_EXCEEDED
+              message: Too many requests
+              details: You have exceeded the rate limit for this endpoint. Please wait before making additional requests.
+            request_id: req_1234567890
+      headers:
+        RateLimit-Limit:
+          description: Allowed limit in the timeframe
+          schema:
+            type: string
+          example: '10000'
+        RateLimit-Remaining:
+          description: Number of available requests remaining
+          schema:
+            type: string
+          example: '0'
+        RateLimit-Reset:
+          description: The time remaining, in seconds, until the rate limit quota is reset
+          schema:
+            type: string
+          example: '42'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: apikey
+      description: 'API key for authentication. You can obtain your API key from the
+
+        Pruna AI dashboard.
+
+
+        Include it in the `apikey` header for all requests.
+
+        '
+externalDocs:
+  description: Model Documentation
+  url: https://docs.api.pruna.ai
