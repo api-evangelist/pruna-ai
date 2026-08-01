@@ -1,0 +1,63 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/pruna-ai-openapi.yml
+format: custom
+notes: >-
+  P-API does not use RFC 9457 problem+json. Errors are returned as
+  application/json with an `error` object envelope: {code, message, details}.
+  Prediction-level failures carry a PredictionError with a machine-readable
+  `code` enum (INVALID_INPUT, MODEL_ERROR, TIMEOUT, QUOTA_EXCEEDED,
+  INTERNAL_ERROR) surfaced on the status response.
+envelope:
+  media_type: application/json
+  shape: '{ "error": { "code": string, "message": string, "details": string } }'
+  fields:
+    - code
+    - message
+    - details
+prediction_error_codes:
+  - code: INVALID_INPUT
+    meaning: Request input parameters were invalid for the selected model.
+  - code: MODEL_ERROR
+    meaning: The model failed while generating content.
+  - code: TIMEOUT
+    meaning: Generation exceeded the allowed time.
+  - code: QUOTA_EXCEEDED
+    meaning: Account credit/usage quota was exceeded.
+  - code: INTERNAL_ERROR
+    meaning: An unexpected server-side error occurred.
+problems:
+  - status: 400
+    title: Bad request
+    description: Invalid request payload or parameters (e.g. missing/invalid input).
+    source_operation: openapi/pruna-ai-openapi.yml#createPrediction
+  - status: 401
+    title: Unauthorized
+    description: Missing or invalid API key in the apikey header.
+    source_operation: openapi/pruna-ai-openapi.yml#createPrediction
+  - status: 404
+    title: Not found
+    description: Prediction id or delivery path does not exist.
+    source_operation: openapi/pruna-ai-openapi.yml#getPredictionStatus
+  - status: 410
+    title: Content expired
+    description: Generated content has expired or is no longer available.
+    source_operation: openapi/pruna-ai-openapi.yml#downloadContent
+  - status: 413
+    title: Payload too large
+    description: Uploaded file exceeds the maximum allowed size.
+    source_operation: openapi/pruna-ai-openapi.yml#uploadFile
+  - status: 422
+    title: Unprocessable entity
+    description: Input failed model-specific validation.
+    source_operation: openapi/pruna-ai-openapi.yml#createPrediction
+  - status: 429
+    title: Too many requests
+    description: >-
+      Rate limit exceeded. Trainer models are limited to 5 requests/minute;
+      file uploads are rate limited.
+    source_operation: openapi/pruna-ai-openapi.yml#uploadFile
+  - status: 500
+    title: Internal server error
+    description: Unexpected server-side error.
+    source_operation: openapi/pruna-ai-openapi.yml#createPrediction

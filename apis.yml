@@ -1,8 +1,30 @@
 aid: pruna-ai
 name: Pruna AI
-description: 'Pruna AI is a company surfaced as a portfolio company of eqt-ventures and added to the API
-  Evangelist network as a stub for enrichment. Sector: artificial-intelligence. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: >-
+  Pruna AI builds Performance Models (P-Series) — optimized image and video
+  generation models engineered to be faster, cheaper, and smaller than standard
+  alternatives while keeping quality high. It ships three ways: a hosted HTTP
+  API (P-API) that exposes ~20 models (text-to-image, image editing, upscaling,
+  virtual try-on, text/image-to-video, avatar, animation and replacement, plus
+  LoRA trainers) behind a single endpoint selected via a request header; an
+  open-source Python optimization framework (pruna / pruna-pro) for caching,
+  quantization, pruning, distillation and compilation of your own models; and
+  hosted demos. The P-API uses apikey-header auth with an async
+  submit/poll/download workflow and an optional synchronous mode. Pruna AI is a
+  portfolio company of EQT Ventures.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://framerusercontent.com/images/tM3dYw39zvWf45dsZXfTkZm0jNc.png
 url: https://raw.githubusercontent.com/api-evangelist/pruna-ai/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -12,16 +34,131 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 19
+  pass: local-v1
 tags:
 - Company
 - Artificial Intelligence
-apis: []
+- Machine Learning
+- Image Generation
+- Video Generation
+- Generative AI
+- Model Optimization
+- Inference
+- Developer Tools
+apis:
+- aid: pruna-ai:pruna-ai-content-delivery-api
+  name: Pruna AI Content Delivery API
+  description: Download generated content files
+  humanURL: https://docs.api.pruna.ai/
+  baseURL: https://api.pruna.ai
+  tags:
+  - Content Delivery
+  properties:
+  - type: OpenAPI
+    url: openapi/pruna-ai-content-delivery-api-openapi.yml
+  - type: Documentation
+    url: https://docs.api.pruna.ai/
+  - type: APIReference
+    url: >-
+      https://docs.api.pruna.ai/apis/models-api-0/versions/d086a242-3813-4148-a087-e724d4b333f8
+  - type: GettingStarted
+    url: https://docs.api.pruna.ai/guides/quickstart
+- aid: pruna-ai:pruna-ai-file-management-api
+  name: Pruna AI File Management API
+  description: Upload files to be used as input for predictions
+  humanURL: https://docs.api.pruna.ai/
+  baseURL: https://api.pruna.ai
+  tags:
+  - File Management
+  properties:
+  - type: OpenAPI
+    url: openapi/pruna-ai-file-management-api-openapi.yml
+  - type: Documentation
+    url: https://docs.api.pruna.ai/
+  - type: APIReference
+    url: >-
+      https://docs.api.pruna.ai/apis/models-api-0/versions/d086a242-3813-4148-a087-e724d4b333f8
+  - type: GettingStarted
+    url: https://docs.api.pruna.ai/guides/quickstart
+- aid: pruna-ai:pruna-ai-predictions-api
+  name: Pruna AI Predictions API
+  description: Core prediction workflow operations
+  humanURL: https://docs.api.pruna.ai/
+  baseURL: https://api.pruna.ai
+  tags:
+  - Predictions
+  properties:
+  - type: OpenAPI
+    url: openapi/pruna-ai-predictions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.api.pruna.ai/
+  - type: APIReference
+    url: >-
+      https://docs.api.pruna.ai/apis/models-api-0/versions/d086a242-3813-4148-a087-e724d4b333f8
+  - type: GettingStarted
+    url: https://docs.api.pruna.ai/guides/quickstart
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DeveloperPortal
+  url: https://docs.api.pruna.ai/
+- type: Documentation
+  url: https://docs.pruna.ai/en/stable/
+- type: APIReference
+  url: https://docs.api.pruna.ai/apis/models-api-0/versions/d086a242-3813-4148-a087-e724d4b333f8
+- type: GettingStarted
+  url: https://docs.api.pruna.ai/guides/quickstart
+- type: SignUp
+  url: https://dashboard.pruna.ai/login
+- type: Pricing
+  url: https://www.pruna.ai/pricing
+- type: Blog
+  url: https://www.pruna.ai/blog
+- type: Support
+  url: https://discord.gg/JFQmtFKCjd
+- type: GitHubOrganization
+  url: https://github.com/PrunaAI
+- type: TermsOfService
+  url: https://docs.api.pruna.ai/terms
+- type: PrivacyPolicy
+  url: https://www.pruna.ai/privacy-notice
+- type: Sandbox
+  url: https://demo.pruna.ai/
+- type: Authentication
+  url: authentication/pruna-ai-authentication.yml
+- type: Conventions
+  url: conventions/pruna-ai-conventions.yml
+- type: ErrorCatalog
+  url: errors/pruna-ai-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/pruna-ai-lifecycle.yml
+- type: Conformance
+  url: conformance/pruna-ai-conformance.yml
+- type: DataModel
+  url: data-model/pruna-ai-data-model.yml
+- type: RateLimits
+  url: rate-limits/pruna-ai-rate-limits.yml
+- type: Packages
+  url: packages/pruna-ai-packages.yml
+- type: SDKs
+  url: packages/pruna-ai-packages.yml
+- type: MCPServer
+  url: mcp/pruna-ai-mcp.yml
+- type: LLMsTxt
+  url: llms/pruna-ai-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/pruna-ai-agentic-access.yml
+- type: DomainSecurity
+  url: security/pruna-ai-domain-security.yml
 - type: Website
   url: https://www.pruna.ai/

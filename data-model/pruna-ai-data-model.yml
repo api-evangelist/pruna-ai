@@ -1,0 +1,44 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/pruna-ai-openapi.yml
+notes: >-
+  Entity graph derived from the P-API OpenAPI schemas. The core lifecycle is:
+  upload File(s) -> submit Prediction referencing file URLs -> poll status ->
+  download output. Model is selected via the Model request header (schemas
+  p-image, p-image-edit, p-video, flux-*, wan-*, qwen-*, z-image-* describe
+  per-model input shapes).
+entities:
+  - name: Prediction
+    id_field: id
+    description: A single generation request and its result.
+    key_fields: [id, model, input, get_url, status, generation_url]
+    schemas: [PredictionRequest, PredictionResponse, PredictionStatusResponse]
+  - name: File
+    id_field: id
+    description: An uploaded reference asset used as prediction input.
+    key_fields: [id, name, content_type, size, etag, urls, created_at, expires_at]
+    schemas: [FileUploadResponse]
+  - name: Model
+    id_field: name
+    description: >-
+      A named generation model selected via the Model header (~20 models across
+      image, edit, upscale, try-on and video categories, plus LoRA trainers).
+    examples: [p-image, p-image-edit, p-image-upscale, p-image-try-on, p-video, flux-dev, wan-t2v, qwen-image]
+  - name: OutputFile
+    description: A generated asset delivered from the delivery endpoint.
+    key_fields: [generation_url]
+    schemas: [OutputFile]
+relationships:
+  - from: Prediction
+    to: Model
+    type: belongs_to
+    via: Model header / model field
+  - from: Prediction
+    to: File
+    type: has_many
+    via: input.images[] (uploaded file get URLs)
+  - from: Prediction
+    to: OutputFile
+    type: has_one
+    via: generation_url
+status_values: [starting, processing, succeeded, failed, canceled]

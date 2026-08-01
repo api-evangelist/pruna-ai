@@ -1,0 +1,16 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/pruna-ai-openapi.yml
+skills:
+  - file: pruna-ai-generate-image.md
+    name: Generate an image with Pruna P-API
+    api: openapi/pruna-ai-openapi.yml
+    operations: [createPrediction, getPredictionStatus, downloadContent]
+  - file: pruna-ai-edit-image.md
+    name: Edit images with Pruna P-API
+    api: openapi/pruna-ai-openapi.yml
+    operations: [uploadFile, createPrediction, getPredictionStatus, downloadContent]
+  - file: pruna-ai-generate-video.md
+    name: Generate a video with Pruna P-API
+    api: openapi/pruna-ai-openapi.yml
+    operations: [createPrediction, getPredictionStatus, downloadContent]

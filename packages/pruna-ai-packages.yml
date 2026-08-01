@@ -1,0 +1,42 @@
+generated: '2026-07-20'
+method: searched
+source: https://pypi.org/project/pruna/
+notes: >-
+  Pruna AI ships an official open-source Python model-optimization framework
+  (pruna) plus a Pro build (pruna-pro). The hosted P-API (api.pruna.ai) is a
+  plain HTTP+apikey API with no dedicated first-party client SDK; call it with
+  any HTTP client. ComfyUI integration nodes are published from the GitHub org.
+packages:
+  - language: python
+    registry: pypi
+    name: pruna
+    url: https://pypi.org/project/pruna/
+    install: pip install pruna
+    version: 0.3.4
+    license: Apache-2.0
+    official: true
+    description: >-
+      Model optimization framework (caching, quantization, pruning,
+      distillation, compilation) to make AI models faster, smaller and cheaper.
+    repository: https://github.com/PrunaAI/pruna
+  - language: python
+    registry: pypi
+    name: pruna-pro
+    url: https://pypi.org/project/pruna-pro/
+    install: pip install pruna-pro
+    version: 0.3.4
+    official: true
+    description: Pro edition of the Pruna optimization framework.
+    repository: https://github.com/PrunaAI/pruna
+  - language: python
+    registry: github
+    name: comfyui-pruna-api
+    url: https://github.com/PrunaAI/comfyui-pruna-api
+    official: true
+    description: ComfyUI custom node that calls the Pruna P-API for generation.
+  - language: python
+    registry: github
+    name: ComfyUI_pruna
+    url: https://github.com/PrunaAI/ComfyUI_pruna
+    official: true
+    description: ComfyUI node integrating the pruna optimization framework.

@@ -1,0 +1,18 @@
+{
+  "provider": "pruna-ai",
+  "sources": [
+    "pruna-ai-content-delivery-api-openapi.yml",
+    "pruna-ai-file-management-api-openapi.yml",
+    "pruna-ai-predictions-api-openapi.yml"
+  ],
+  "outputs": [
+    "pruna-ai-content-delivery-api-openapi.yml",
+    "pruna-ai-file-management-api-openapi.yml",
+    "pruna-ai-predictions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

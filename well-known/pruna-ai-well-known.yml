@@ -1,0 +1,26 @@
+generated: '2026-07-20'
+method: searched
+notes: >-
+  Probed the standard /.well-known/ discovery surface on the API host and the
+  marketing/docs hosts. No machine-readable discovery documents are served;
+  the root site is a Framer SPA that returns a soft-200 HTML page for
+  /.well-known/security.txt (not a real RFC 9116 file). No pointer wired.
+hosts:
+  - host: https://api.pruna.ai
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://pruna.ai
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        valid: false
+        note: Returns Framer SPA HTML, not a valid security.txt.

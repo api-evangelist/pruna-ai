@@ -1,0 +1,37 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/pruna-ai-openapi.yml
+notes: >-
+  Cross-cutting standards conformance derived from the P-API OpenAPI. The API is
+  a straightforward apiKey-authenticated REST surface; no OAuth/OIDC, no
+  problem+json, no published compliance certifications found at probe time.
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: OpenAPI 3.0.3 document published via the developer portal.
+  - id: rest
+    conforms: true
+    evidence: Resource-oriented HTTP endpoints (predictions, files, delivery).
+  - id: api-key-auth
+    conforms: true
+    evidence: components.securitySchemes ApiKeyAuth (header apikey).
+  - id: oauth2
+    conforms: false
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use a custom application/json error envelope, not problem+json.
+  - id: rfc8594-sunset
+    conforms: false
+  - id: idempotency
+    conforms: false
+    evidence: No Idempotency-Key support documented or in spec.
+  - id: pagination
+    conforms: false
+    evidence: No collection/list endpoints.
+  - id: json-api
+    conforms: false
+  - id: async-poll
+    conforms: true
+    evidence: Async submit/poll/download workflow plus optional Try-Sync mode.

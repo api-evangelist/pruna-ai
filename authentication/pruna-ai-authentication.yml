@@ -1,0 +1,20 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/pruna-ai-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: apikey
+  description: |-
+    API key for authentication. You can obtain your API key from the
+    Pruna AI dashboard.
+
+    Include it in the `apikey` header for all requests.
+  sources:
+  - openapi/pruna-ai-openapi.yml

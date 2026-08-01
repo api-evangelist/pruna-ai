@@ -1,0 +1,22 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/pruna-ai-openapi.yml
+notes: >-
+  Rate limits documented in the P-API OpenAPI description and surfaced via HTTP
+  429. Standard prediction throughput is credit/quota governed rather than a
+  published fixed RPM; trainer models carry an explicit lower limit.
+signalled_via: HTTP 429 Too Many Requests
+rate_limits:
+  - scope: trainer models (p-image-trainer, p-image-edit-trainer)
+    limit_count: 5
+    window: minute
+    description: LoRA trainer endpoints are limited to 5 requests per minute.
+  - scope: file uploads (POST /v1/files)
+    description: >-
+      File uploads are rate limited (HTTP 429). No fixed count published;
+      governed alongside account quota.
+quota:
+  model: credit-based
+  description: >-
+    Usage is metered against purchased credits (minimum $5 top-up); exceeding
+    quota returns a QUOTA_EXCEEDED prediction error.
