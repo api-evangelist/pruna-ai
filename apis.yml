@@ -108,6 +108,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/pruna-ai-openapi-overlay.yaml
 - type: DeveloperPortal
   url: https://docs.api.pruna.ai/
 - type: Documentation
