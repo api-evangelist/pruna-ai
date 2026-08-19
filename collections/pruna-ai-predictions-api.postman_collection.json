@@ -1,0 +1,724 @@
+{
+  "item": [
+    {
+      "id": "d8374199-d02d-41dd-b8b0-5892079b470e",
+      "name": "Predictions",
+      "description": {
+        "content": "Core prediction workflow operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d4d56f1c-1ffe-4835-9065-86308cc4c372",
+          "name": "Submit a content generation request",
+          "request": {
+            "name": "Submit a content generation request",
+            "description": {
+              "content": "Submit a request to generate images or videos using one of the\navailable AI models. This is the first step in the workflow.\n\nThe request will be queued for processing and you'll receive a prediction\nID to track its status.\n\nThe model to use is specified via the `Model` header. The request body structure\nvaries by model (see examples below).\n\nIf the `Try-Sync` header is set to true, the API will wait up to 60 seconds\nfor completion. If generation completes within this time, the response will\ninclude the final result directly.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "predictions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The AI model to use for generation. Each model has specific capabilities and input requirements.",
+                "key": "Model",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "If true, the API will wait up to 60 seconds for the generation to complete.",
+                "key": "Try-Sync",
+                "value": "false"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "apikey"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": {\n    \"key_0\": 2846\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e9e187f3-2efa-4119-a77f-011847bf342e",
+              "name": "Prediction request created successfully. Returns either an async response with prediction ID (default) or a sync response with final results (if Try-Sync=true and generation completes within 60 seconds).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The AI model to use for generation. Each model has specific capabilities and input requirements.",
+                    "key": "Model",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "If true, the API will wait up to 60 seconds for the generation to complete.",
+                    "key": "Try-Sync",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": {\n    \"prompt\": \"A beautiful landscape with mountains and a lake at sunset\",\n    \"speed_mode\": \"Juiced 🔥 (default)\",\n    \"num_inference_steps\": 28,\n    \"guidance\": 3.5,\n    \"seed\": 42,\n    \"aspect_ratio\": \"16:9\",\n    \"image_size\": 1024,\n    \"output_format\": \"jpg\",\n    \"output_quality\": 80\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"pred_fluxdev_001\",\n  \"model\": \"flux-dev\",\n  \"input\": {\n    \"prompt\": \"A beautiful landscape with mountains and a lake at sunset\",\n    \"speed_mode\": \"Juiced 🔥 (default)\",\n    \"num_inference_steps\": 28,\n    \"guidance\": 3.5,\n    \"seed\": 42\n  },\n  \"get_url\": \"https://api.pruna.ai/v1/predictions/status/pred_fluxdev_001\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7956263-7932-4661-96ac-f9df4361b546",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The AI model to use for generation. Each model has specific capabilities and input requirements.",
+                    "key": "Model",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "If true, the API will wait up to 60 seconds for the generation to complete.",
+                    "key": "Try-Sync",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": {\n    \"prompt\": \"A beautiful landscape with mountains and a lake at sunset\",\n    \"speed_mode\": \"Juiced 🔥 (default)\",\n    \"num_inference_steps\": 28,\n    \"guidance\": 3.5,\n    \"seed\": 42,\n    \"aspect_ratio\": \"16:9\",\n    \"image_size\": 1024,\n    \"output_format\": \"jpg\",\n    \"output_quality\": 80\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"Invalid request parameters\",\n    \"details\": \"Field 'model' is required\"\n  },\n  \"request_id\": \"req_1234567890\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8001e344-6de7-4feb-9e3d-6727260aabf0",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The AI model to use for generation. Each model has specific capabilities and input requirements.",
+                    "key": "Model",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "If true, the API will wait up to 60 seconds for the generation to complete.",
+                    "key": "Try-Sync",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": {\n    \"prompt\": \"A beautiful landscape with mountains and a lake at sunset\",\n    \"speed_mode\": \"Juiced 🔥 (default)\",\n    \"num_inference_steps\": 28,\n    \"guidance\": 3.5,\n    \"seed\": 42,\n    \"aspect_ratio\": \"16:9\",\n    \"image_size\": 1024,\n    \"output_format\": \"jpg\",\n    \"output_quality\": 80\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"AUTHENTICATION_FAILED\",\n    \"message\": \"Invalid or missing API key\",\n    \"details\": \"Include your API key in the 'apikey' header\"\n  },\n  \"request_id\": \"req_1234567890\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f46364d-c311-474f-9faf-fd5faf750374",
+              "name": "Request validation failed - invalid input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The AI model to use for generation. Each model has specific capabilities and input requirements.",
+                    "key": "Model",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "If true, the API will wait up to 60 seconds for the generation to complete.",
+                    "key": "Try-Sync",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": {\n    \"prompt\": \"A beautiful landscape with mountains and a lake at sunset\",\n    \"speed_mode\": \"Juiced 🔥 (default)\",\n    \"num_inference_steps\": 28,\n    \"guidance\": 3.5,\n    \"seed\": 42,\n    \"aspect_ratio\": \"16:9\",\n    \"image_size\": 1024,\n    \"output_format\": \"jpg\",\n    \"output_quality\": 80\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"- input.num_inference_steps: Invalid type. Expected: integer, given: string\\n\",\n  \"status\": 422,\n  \"title\": \"Input validation failed\",\n  \"invalid_fields\": [\n    {\n      \"type\": \"invalid_type\",\n      \"field\": \"input.num_inference_steps\",\n      \"description\": \"Invalid type. Expected: integer, given: string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "676f14c2-440b-4ca4-821a-8a00587a5b9b",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The AI model to use for generation. Each model has specific capabilities and input requirements.",
+                    "key": "Model",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "If true, the API will wait up to 60 seconds for the generation to complete.",
+                    "key": "Try-Sync",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": {\n    \"prompt\": \"A beautiful landscape with mountains and a lake at sunset\",\n    \"speed_mode\": \"Juiced 🔥 (default)\",\n    \"num_inference_steps\": 28,\n    \"guidance\": 3.5,\n    \"seed\": 42,\n    \"aspect_ratio\": \"16:9\",\n    \"image_size\": 1024,\n    \"output_format\": \"jpg\",\n    \"output_quality\": 80\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": \"Please try again later or contact support if the problem persists\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f628707c-25ff-4b4f-9e69-b478a8a0a791",
+          "name": "Get prediction status",
+          "request": {
+            "name": "Get prediction status",
+            "description": {
+              "content": "Check the status of a prediction request. This is the second step\nin the asynchronous workflow.\n\nWhen the prediction is completed successfully, the response will include download\nURLs for the generated content (images or videos).\n\nRate limit: 30,000 requests per minute.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "predictions",
+                "status",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The prediction ID returned from the initial request"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "apikey"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6c721a55-fabc-49ff-93e0-c6916cee0520",
+              "name": "Prediction status retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "status",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prediction ID returned from the initial request"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"processing\",\n  \"message\": \"Generation in progress\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4eb17bf3-fd19-4640-8c0a-fc877463b44c",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "status",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prediction ID returned from the initial request"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"AUTHENTICATION_FAILED\",\n    \"message\": \"Invalid or missing API key\",\n    \"details\": \"Include your API key in the 'apikey' header\"\n  },\n  \"request_id\": \"req_1234567890\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc9f9f9f-8b2b-4bbb-a187-5d33e9e52d4a",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "status",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prediction ID returned from the initial request"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"The requested resource was not found\",\n    \"details\": \"Prediction ID does not exist or has expired\"\n  },\n  \"request_id\": \"req_1234567890\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e493bbbb-b543-4330-9459-ce87f32907f7",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "status",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The prediction ID returned from the initial request"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": \"Please try again later or contact support if the problem persists\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pruna.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "55e57712-1bcf-4bbe-91fb-f6c91c98e078",
+    "name": "P Content Delivery Predictions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "P-API provides access to multiple AI models for image generation,\nvideo generation, and image-to-video transformation. The API supports both asynchronous\nand synchronous workflows:\n\n**Asynchronous Workflow (default):**\n1. **POST /v1/predictions** - Submit a generation request\n2. **GET /v1/predictions/status/{id}** - Check prediction status and get results\n3. **GET /v1/predictions/delivery/{path}** - Download the generated content\n\n**Synchronous Workflow (with Try-Sync header):**\n1. **POST /v1/predictions** with `Try-Sync: true` header - Submit a generation\nrequest and wait up to 60 seconds for completion.\n\nThe API exposes 20 AI models across different categories:\n- **Text-to-Image**: p-image, p-image-lora, flux-dev, flux-2-klein-4b, wan-image-small, qwen-image, qwen-image-fast, z-image-turbo, z-image-turbo-lora\n- **Image Editing**: p-image-edit, p-image-edit-lora, qwen-image-edit-plus, flux-dev-lora\n- **Image Upscaling**: p-image-upscale\n- **Virtual Try-On**: p-image-try-on\n- **Text-to-Video**: wan-t2v\n- **Image-to-Video**: wan-i2v\n- **Text-to-Video/Image-to-Video**: p-video\n- **Avatar Video Generation**: p-video-avatar\n- **Video Animation**: p-video-animate\n- **Video Replacement**: p-video-replace\n- **Video Generation/Editing**: vace\n\n**LoRA Trainers:**\n- **p-image-trainer**: Train custom LoRA models for p-image\n- **p-image-edit-trainer**: Train custom LoRA models for p-image-edit\n\nTrainers have a lower rate limit (5 requests/minute) and return training job status.\n\nFor detailed model documentation, see: https://docs.api.pruna.ai/guides/models\n\nAll requests require API key authentication via the `apikey` header.\n\n\nContact Support:\n Name: Pruna AI Support\n Email: support@pruna.ai",
+      "type": "text/plain"
+    }
+  }
+}

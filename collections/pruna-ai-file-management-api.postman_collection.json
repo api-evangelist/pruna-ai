@@ -1,0 +1,475 @@
+{
+  "item": [
+    {
+      "id": "45c32803-82be-4858-af7f-9bbe8a78600a",
+      "name": "File Management",
+      "description": {
+        "content": "Upload files to be used as input for predictions",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d61da562-d228-459a-a204-9ea7bd8f6dea",
+          "name": "Upload a file",
+          "request": {
+            "name": "Upload a file",
+            "description": {
+              "content": "Upload a file (image or video) to be used as input for predictions.\nThe uploaded file will be stored temporarily and can be referenced in prediction\nrequests by its URL.\n\nUploaded files are available for 30 minutes after upload\nand are automatically deleted after expiration. Use the returned URL in\nyour prediction input fields that accept file URLs.\n\n**Rate limit:** 10000 requests per minute\n\n**Example with curl:**\n```bash\ncurl -X POST \"https://api.pruna.ai/v1/files\" \\\n  -H \"apikey: YOUR_API_KEY\" \\\n  -F \"content=@/path/to/your/file.jpg\"\n```\n\nNote: Use `-F` (form) with `@` prefix to upload a file from your local filesystem.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "files"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "apikey"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "content",
+                  "type": "file",
+                  "description": "(Required) The file to upload (image or video)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fdc814b1-63bb-4aea-91ab-3e99375a00a3",
+              "name": "File uploaded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The file to upload (image or video)",
+                        "type": "text/plain"
+                      },
+                      "key": "content",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fqadqq42xq\",\n  \"name\": \"test.jpg\",\n  \"content_type\": \"image/jpeg\",\n  \"size\": 185093,\n  \"etag\": \"\\\"14e9a51deaac6bee2dd8b5c52d7d0b5f\\\"\",\n  \"checksums\": {\n    \"sha256\": \"aa10d5d09bcee5cb5d854bd81899308b0cf0c0c50e29d4f00c2c06e51f0e2fe6\"\n  },\n  \"metadata\": {\n    \"content_length\": 185093,\n    \"width\": 1344,\n    \"height\": 768\n  },\n  \"created_at\": \"2025-01-08T18:51:26.729Z\",\n  \"expires_at\": \"2025-01-09T18:51:26.729Z\",\n  \"urls\": {\n    \"get\": \"https://api.pruna.ai/v1/files/fqadqq42xq\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12b205c7-04d5-4f46-9a3d-ed550329eced",
+              "name": "Invalid file or missing content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The file to upload (image or video)",
+                        "type": "text/plain"
+                      },
+                      "key": "content",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INVALID_FILE\",\n    \"message\": \"The uploaded file is invalid or missing\",\n    \"details\": \"Please provide a valid image or video file\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f632ac7f-1919-45a5-9295-e865d17b1e77",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The file to upload (image or video)",
+                        "type": "text/plain"
+                      },
+                      "key": "content",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"AUTHENTICATION_FAILED\",\n    \"message\": \"Invalid or missing API key\",\n    \"details\": \"Include your API key in the 'apikey' header\"\n  },\n  \"request_id\": \"req_1234567890\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b8d916a-a7c0-4e79-a90a-f3257eebc394",
+              "name": "File too large",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The file to upload (image or video)",
+                        "type": "text/plain"
+                      },
+                      "key": "content",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"FILE_TOO_LARGE\",\n    \"message\": \"The uploaded file exceeds the maximum size limit\",\n    \"details\": \"Maximum file size is 100MB\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe7d6ad1-d790-466a-b8f6-da19b4d8a5e1",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The file to upload (image or video)",
+                        "type": "text/plain"
+                      },
+                      "key": "content",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Allowed limit in the timeframe",
+                  "key": "RateLimit-Limit",
+                  "value": "10000"
+                },
+                {
+                  "disabled": false,
+                  "description": "Number of available requests remaining",
+                  "key": "RateLimit-Remaining",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time remaining, in seconds, until the rate limit quota is reset",
+                  "key": "RateLimit-Reset",
+                  "value": "42"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMIT_EXCEEDED\",\n    \"message\": \"Too many requests\",\n    \"details\": \"You have exceeded the rate limit for this endpoint. Please wait before making additional requests.\"\n  },\n  \"request_id\": \"req_1234567890\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43ddd1fa-543f-4a53-8f05-93e160765675",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The file to upload (image or video)",
+                        "type": "text/plain"
+                      },
+                      "key": "content",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": \"Please try again later or contact support if the problem persists\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pruna.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3884455d-4271-4091-aac8-8aa494dbfac6",
+    "name": "P Content Delivery File Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "P-API provides access to multiple AI models for image generation,\nvideo generation, and image-to-video transformation. The API supports both asynchronous\nand synchronous workflows:\n\n**Asynchronous Workflow (default):**\n1. **POST /v1/predictions** - Submit a generation request\n2. **GET /v1/predictions/status/{id}** - Check prediction status and get results\n3. **GET /v1/predictions/delivery/{path}** - Download the generated content\n\n**Synchronous Workflow (with Try-Sync header):**\n1. **POST /v1/predictions** with `Try-Sync: true` header - Submit a generation\nrequest and wait up to 60 seconds for completion.\n\nThe API exposes 20 AI models across different categories:\n- **Text-to-Image**: p-image, p-image-lora, flux-dev, flux-2-klein-4b, wan-image-small, qwen-image, qwen-image-fast, z-image-turbo, z-image-turbo-lora\n- **Image Editing**: p-image-edit, p-image-edit-lora, qwen-image-edit-plus, flux-dev-lora\n- **Image Upscaling**: p-image-upscale\n- **Virtual Try-On**: p-image-try-on\n- **Text-to-Video**: wan-t2v\n- **Image-to-Video**: wan-i2v\n- **Text-to-Video/Image-to-Video**: p-video\n- **Avatar Video Generation**: p-video-avatar\n- **Video Animation**: p-video-animate\n- **Video Replacement**: p-video-replace\n- **Video Generation/Editing**: vace\n\n**LoRA Trainers:**\n- **p-image-trainer**: Train custom LoRA models for p-image\n- **p-image-edit-trainer**: Train custom LoRA models for p-image-edit\n\nTrainers have a lower rate limit (5 requests/minute) and return training job status.\n\nFor detailed model documentation, see: https://docs.api.pruna.ai/guides/models\n\nAll requests require API key authentication via the `apikey` header.\n\n\nContact Support:\n Name: Pruna AI Support\n Email: support@pruna.ai",
+      "type": "text/plain"
+    }
+  }
+}

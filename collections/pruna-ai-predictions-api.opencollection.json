@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "P Content Delivery Predictions API",
+    "version": "0.5.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Predictions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a content generation request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pruna.ai/v1/predictions",
+            "headers": [
+              {
+                "name": "Model",
+                "value": ""
+              },
+              {
+                "name": "Try-Sync",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Submit a request to generate images or videos using one of the\navailable AI models. This is the first step in the workflow.\n\nThe request will be queued for processing and you'll receive a prediction\nID to track its status.\n\nThe model to use is specified via the `Model` header. The request body structure\nvaries by model (see examples below).\n\nIf the `Try-Sync` header is set to true, the API will wait up to 60 seconds\nfor completion. If generation completes within this time, the response will\nincl"
+        },
+        {
+          "info": {
+            "name": "Get prediction status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pruna.ai/v1/predictions/status/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The prediction ID returned from the initial request"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Check the status of a prediction request. This is the second step\nin the asynchronous workflow.\n\nWhen the prediction is completed successfully, the response will include download\nURLs for the generated content (images or videos).\n\nRate limit: 30,000 requests per minute.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

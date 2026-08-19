@@ -2,24 +2,29 @@ generated: '2026-07-20'
 method: derived
 source: openapi/pruna-ai-openapi.yml
 status: candidate
-notes: >-
-  No official hosted/remote MCP server was found for Pruna at probe time. This
-  is a DERIVED candidate tool list mapping each P-API operation to an MCP tool,
-  as a starting point for an agent-facing server. Not published by Pruna.
+notes: No official hosted/remote MCP server was found for Pruna at probe time. This is a DERIVED candidate
+  tool list mapping each P-API operation to an MCP tool, as a starting point for an agent-facing server.
+  Not published by Pruna.
 server:
   name: pruna-ai
   transport: http
   auth: api-key (apikey header)
 tools:
-  - name: create_prediction
-    description: Submit a content generation request (image/video) to a model.
-    source_operation: openapi/pruna-ai-openapi.yml#createPrediction
-  - name: get_prediction_status
-    description: Get the status and result of a prediction by id.
-    source_operation: openapi/pruna-ai-openapi.yml#getPredictionStatus
-  - name: download_content
-    description: Download generated content from a delivery path.
-    source_operation: openapi/pruna-ai-openapi.yml#downloadContent
-  - name: upload_file
-    description: Upload a reference file for use in editing/generation inputs.
-    source_operation: openapi/pruna-ai-openapi.yml#uploadFile
+- name: create_prediction
+  description: Submit a content generation request (image/video) to a model.
+  source_operation: openapi/pruna-ai-openapi.yml#createPrediction
+- name: get_prediction_status
+  description: Get the status and result of a prediction by id.
+  source_operation: openapi/pruna-ai-openapi.yml#getPredictionStatus
+- name: download_content
+  description: Download generated content from a delivery path.
+  source_operation: openapi/pruna-ai-openapi.yml#downloadContent
+- name: upload_file
+  description: Upload a reference file for use in editing/generation inputs.
+  source_operation: openapi/pruna-ai-openapi.yml#uploadFile
+deployment:
+  mode: none
+  verified: derived
+  tools: 4
+  checked: '2026-08-12'
+  source: catalog MCP census

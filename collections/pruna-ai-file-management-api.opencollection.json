@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "P Content Delivery File Management API",
+    "version": "0.5.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "File Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload a file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pruna.ai/v1/files",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "content",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upload a file (image or video) to be used as input for predictions.\nThe uploaded file will be stored temporarily and can be referenced in prediction\nrequests by its URL.\n\nUploaded files are available for 30 minutes after upload\nand are automatically deleted after expiration. Use the returned URL in\nyour prediction input fields that accept file URLs.\n\n**Rate limit:** 10000 requests per minute\n\n**Example with curl:**\n```bash\ncurl -X POST \"https://api.pruna.ai/v1/files\" \\\n  -H \"apikey: YOUR_API_KEY"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

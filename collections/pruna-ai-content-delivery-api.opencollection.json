@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "P Content Delivery API",
+    "version": "0.5.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Content Delivery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download generated content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pruna.ai/v1/predictions/delivery/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "The delivery path returned in the prediction status response"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Download the generated content file. This is the third and final\nstep in the workflow.\n\nUse the `generation_url` from the prediction status response directly - no path extraction needed.\nSimply make a GET request to that URL with your API key.\n\nRate limit: 10,000 requests per minute.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

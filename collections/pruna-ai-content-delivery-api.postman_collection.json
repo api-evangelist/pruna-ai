@@ -1,0 +1,399 @@
+{
+  "item": [
+    {
+      "id": "ac9f404a-c442-480c-aa25-82605445b5b3",
+      "name": "Content Delivery",
+      "description": {
+        "content": "Download generated content files",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "245c494c-cc53-4c51-b5b2-62d276850493",
+          "name": "Download generated content",
+          "request": {
+            "name": "Download generated content",
+            "description": {
+              "content": "Download the generated content file. This is the third and final\nstep in the workflow.\n\nUse the `generation_url` from the prediction status response directly - no path extraction needed.\nSimply make a GET request to that URL with your API key.\n\nRate limit: 10,000 requests per minute.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "predictions",
+                "delivery",
+                ":path"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) The delivery path returned in the prediction status response"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "image/jpeg"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "apikey"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7b9b7d83-2bb3-4ba1-a88a-9f0253744097",
+              "name": "Content file downloaded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "delivery",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) The delivery path returned in the prediction status response"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "image/jpeg"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The size of the file in bytes",
+                  "key": "Content-Length",
+                  "value": "2048576"
+                },
+                {
+                  "disabled": false,
+                  "description": "Suggested filename for download",
+                  "key": "Content-Disposition",
+                  "value": "attachment; filename=\"output_42_0.jpeg\""
+                },
+                {
+                  "disabled": false,
+                  "description": "Caching directives",
+                  "key": "Cache-Control",
+                  "value": "public, max-age=3600"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "image/jpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "84daf436-ae4b-4fa2-bab7-5e4d51df2301",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "delivery",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) The delivery path returned in the prediction status response"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"AUTHENTICATION_FAILED\",\n    \"message\": \"Invalid or missing API key\",\n    \"details\": \"Include your API key in the 'apikey' header\"\n  },\n  \"request_id\": \"req_1234567890\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd1131a3-85f0-42e5-8abd-78b2611cd155",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "delivery",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) The delivery path returned in the prediction status response"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"The requested resource was not found\",\n    \"details\": \"Prediction ID does not exist or has expired\"\n  },\n  \"request_id\": \"req_1234567890\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04c3466e-cc9c-48f5-848d-d9963ceff750",
+              "name": "Content expired or no longer available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "delivery",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) The delivery path returned in the prediction status response"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gone",
+              "code": 410,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"CONTENT_EXPIRED\",\n    \"message\": \"The requested content has expired and is no longer available\",\n    \"details\": \"Generated content is available for 24 hours after creation\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8bfa8c6-6dca-4431-a295-9e105433e40c",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "predictions",
+                    "delivery",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) The delivery path returned in the prediction status response"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": \"Please try again later or contact support if the problem persists\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pruna.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3a9ef2dc-f222-436b-b0cc-a426bb6a9380",
+    "name": "P Content Delivery API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "P-API provides access to multiple AI models for image generation,\nvideo generation, and image-to-video transformation. The API supports both asynchronous\nand synchronous workflows:\n\n**Asynchronous Workflow (default):**\n1. **POST /v1/predictions** - Submit a generation request\n2. **GET /v1/predictions/status/{id}** - Check prediction status and get results\n3. **GET /v1/predictions/delivery/{path}** - Download the generated content\n\n**Synchronous Workflow (with Try-Sync header):**\n1. **POST /v1/predictions** with `Try-Sync: true` header - Submit a generation\nrequest and wait up to 60 seconds for completion.\n\nThe API exposes 20 AI models across different categories:\n- **Text-to-Image**: p-image, p-image-lora, flux-dev, flux-2-klein-4b, wan-image-small, qwen-image, qwen-image-fast, z-image-turbo, z-image-turbo-lora\n- **Image Editing**: p-image-edit, p-image-edit-lora, qwen-image-edit-plus, flux-dev-lora\n- **Image Upscaling**: p-image-upscale\n- **Virtual Try-On**: p-image-try-on\n- **Text-to-Video**: wan-t2v\n- **Image-to-Video**: wan-i2v\n- **Text-to-Video/Image-to-Video**: p-video\n- **Avatar Video Generation**: p-video-avatar\n- **Video Animation**: p-video-animate\n- **Video Replacement**: p-video-replace\n- **Video Generation/Editing**: vace\n\n**LoRA Trainers:**\n- **p-image-trainer**: Train custom LoRA models for p-image\n- **p-image-edit-trainer**: Train custom LoRA models for p-image-edit\n\nTrainers have a lower rate limit (5 requests/minute) and return training job status.\n\nFor detailed model documentation, see: https://docs.api.pruna.ai/guides/models\n\nAll requests require API key authentication via the `apikey` header.\n\n\nContact Support:\n Name: Pruna AI Support\n Email: support@pruna.ai",
+      "type": "text/plain"
+    }
+  }
+}
