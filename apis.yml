@@ -12,6 +12,18 @@ description: >-
   hosted demos. The P-API uses apikey-header auth with an async
   submit/poll/download workflow and an optional synchronous mode. Pruna AI is a
   portfolio company of EQT Ventures.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
