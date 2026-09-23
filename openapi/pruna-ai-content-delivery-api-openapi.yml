@@ -1,70 +1,9 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: P Content Delivery API
   description: 'P-API provides access to multiple AI models for image generation,
 
-    video generation, and image-to-video transformation. The API supports both asynchronous
-
-    and synchronous workflows:
-
-
-    **Asynchronous Workflow (default):**
-
-    1. **POST /v1/predictions** - Submit a generation request
-
-    2. **GET /v1/predictions/status/{id}** - Check prediction status and get results
-
-    3. **GET /v1/predictions/delivery/{path}** - Download the generated content
-
-
-    **Synchronous Workflow (with Try-Sync header):**
-
-    1. **POST /v1/predictions** with `Try-Sync: true` header - Submit a generation
-
-    request and wait up to 60 seconds for completion.
-
-
-    The API exposes 20 AI models across different categories:
-
-    - **Text-to-Image**: p-image, p-image-lora, flux-dev, flux-2-klein-4b, wan-image-small, qwen-image, qwen-image-fast, z-image-turbo, z-image-turbo-lora
-
-    - **Image Editing**: p-image-edit, p-image-edit-lora, qwen-image-edit-plus, flux-dev-lora
-
-    - **Image Upscaling**: p-image-upscale
-
-    - **Virtual Try-On**: p-image-try-on
-
-    - **Text-to-Video**: wan-t2v
-
-    - **Image-to-Video**: wan-i2v
-
-    - **Text-to-Video/Image-to-Video**: p-video
-
-    - **Avatar Video Generation**: p-video-avatar
-
-    - **Video Animation**: p-video-animate
-
-    - **Video Replacement**: p-video-replace
-
-    - **Video Generation/Editing**: vace
-
-
-    **LoRA Trainers:**
-
-    - **p-image-trainer**: Train custom LoRA models for p-image
-
-    - **p-image-edit-trainer**: Train custom LoRA models for p-image-edit
-
-
-    Trainers have a lower rate limit (5 requests/minute) and return training job status.
-
-
-    For detailed model documentation, see: https://docs.api.pruna.ai/guides/models
-
-
-    All requests require API key authentication via the `apikey` header.
-
-    '
+    video generation, and image-to-video transformation.'
   version: 0.5.3
   contact:
     name: Pruna AI Support
@@ -91,9 +30,7 @@ paths:
         Simply make a GET request to that URL with your API key.
 
 
-        Rate limit: 10,000 requests per minute.
-
-        '
+        Rate limit: 10,000 requests per minute.'
       operationId: downloadContent
       tags:
       - Content Delivery
@@ -187,18 +124,6 @@ components:
               code: INTERNAL_ERROR
               message: An unexpected error occurred
               details: Please try again later or contact support if the problem persists
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: AUTHENTICATION_FAILED
-              message: Invalid or missing API key
-              details: Include your API key in the 'apikey' header
-            request_id: req_1234567890
     NotFound:
       description: Resource not found
       content:
@@ -210,6 +135,18 @@ components:
               code: NOT_FOUND
               message: The requested resource was not found
               details: Prediction ID does not exist or has expired
+            request_id: req_1234567890
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: AUTHENTICATION_FAILED
+              message: Invalid or missing API key
+              details: Include your API key in the 'apikey' header
             request_id: req_1234567890
   schemas:
     Error:

@@ -1,70 +1,9 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: P Content Delivery Predictions API
+  title: Predictions API
   description: 'P-API provides access to multiple AI models for image generation,
 
-    video generation, and image-to-video transformation. The API supports both asynchronous
-
-    and synchronous workflows:
-
-
-    **Asynchronous Workflow (default):**
-
-    1. **POST /v1/predictions** - Submit a generation request
-
-    2. **GET /v1/predictions/status/{id}** - Check prediction status and get results
-
-    3. **GET /v1/predictions/delivery/{path}** - Download the generated content
-
-
-    **Synchronous Workflow (with Try-Sync header):**
-
-    1. **POST /v1/predictions** with `Try-Sync: true` header - Submit a generation
-
-    request and wait up to 60 seconds for completion.
-
-
-    The API exposes 20 AI models across different categories:
-
-    - **Text-to-Image**: p-image, p-image-lora, flux-dev, flux-2-klein-4b, wan-image-small, qwen-image, qwen-image-fast, z-image-turbo, z-image-turbo-lora
-
-    - **Image Editing**: p-image-edit, p-image-edit-lora, qwen-image-edit-plus, flux-dev-lora
-
-    - **Image Upscaling**: p-image-upscale
-
-    - **Virtual Try-On**: p-image-try-on
-
-    - **Text-to-Video**: wan-t2v
-
-    - **Image-to-Video**: wan-i2v
-
-    - **Text-to-Video/Image-to-Video**: p-video
-
-    - **Avatar Video Generation**: p-video-avatar
-
-    - **Video Animation**: p-video-animate
-
-    - **Video Replacement**: p-video-replace
-
-    - **Video Generation/Editing**: vace
-
-
-    **LoRA Trainers:**
-
-    - **p-image-trainer**: Train custom LoRA models for p-image
-
-    - **p-image-edit-trainer**: Train custom LoRA models for p-image-edit
-
-
-    Trainers have a lower rate limit (5 requests/minute) and return training job status.
-
-
-    For detailed model documentation, see: https://docs.api.pruna.ai/guides/models
-
-
-    All requests require API key authentication via the `apikey` header.
-
-    '
+    video generation, and image-to-video transformation.'
   version: 0.5.3
   contact:
     name: Pruna AI Support
@@ -100,9 +39,7 @@ paths:
 
         for completion. If generation completes within this time, the response will
 
-        include the final result directly.
-
-        '
+        include the final result directly.'
       operationId: createPrediction
       x-microcks-operation:
         dispatcher: HEADER
@@ -755,9 +692,7 @@ paths:
         URLs for the generated content (images or videos).
 
 
-        Rate limit: 30,000 requests per minute.
-
-        '
+        Rate limit: 30,000 requests per minute.'
       operationId: getPredictionStatus
       tags:
       - Predictions
@@ -813,6 +748,53 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: AUTHENTICATION_FAILED
+              message: Invalid or missing API key
+              details: Include your API key in the 'apikey' header
+            request_id: req_1234567890
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: INTERNAL_ERROR
+              message: An unexpected error occurred
+              details: Please try again later or contact support if the problem persists
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: NOT_FOUND
+              message: The requested resource was not found
+              details: Prediction ID does not exist or has expired
+            request_id: req_1234567890
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: VALIDATION_ERROR
+              message: Invalid request parameters
+              details: Field 'model' is required
+            request_id: req_1234567890
     ValidationError:
       description: Request validation failed - invalid input parameters
       content:
@@ -885,103 +867,7 @@ components:
                 - type: missing
                   field: input.prompt
                   description: Field required
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: NOT_FOUND
-              message: The requested resource was not found
-              details: Prediction ID does not exist or has expired
-            request_id: req_1234567890
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: INTERNAL_ERROR
-              message: An unexpected error occurred
-              details: Please try again later or contact support if the problem persists
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: AUTHENTICATION_FAILED
-              message: Invalid or missing API key
-              details: Include your API key in the 'apikey' header
-            request_id: req_1234567890
-    BadRequest:
-      description: Invalid request parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: VALIDATION_ERROR
-              message: Invalid request parameters
-              details: Field 'model' is required
-            request_id: req_1234567890
   schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: string
-              description: Additional error context
-        request_id:
-          type: string
-          description: Unique request identifier for debugging
-          example: req_1234567890
-    PredictionResponse:
-      type: object
-      required:
-      - id
-      - model
-      - input
-      - get_url
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the prediction
-          example: 1zww7deyssrme0csqwr90phzzr
-        model:
-          type: string
-          description: Model identifier used for this prediction
-          example: vace
-        input:
-          type: object
-          description: The input parameters provided for this prediction
-          additionalProperties: true
-        get_url:
-          type: string
-          format: uri
-          description: URL to check prediction status
-          example: https://api.pruna.ai/v1/predictions/status/1zww7deyssrme0csqwr90phzzr
     PredictionStatusResponse:
       type: object
       required:
@@ -1009,6 +895,55 @@ components:
           type: string
           description: Error details (available when status is 'failed')
           example: Number of samples, -5, must be non-negative.
+    PredictionResponse:
+      type: object
+      required:
+      - id
+      - model
+      - input
+      - get_url
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the prediction
+          example: 1zww7deyssrme0csqwr90phzzr
+        model:
+          type: string
+          description: Model identifier used for this prediction
+          example: vace
+        input:
+          type: object
+          description: The input parameters provided for this prediction
+          additionalProperties: true
+        get_url:
+          type: string
+          format: uri
+          description: URL to check prediction status
+          example: https://api.pruna.ai/v1/predictions/status/1zww7deyssrme0csqwr90phzzr
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: string
+              description: Additional error context
+        request_id:
+          type: string
+          description: Unique request identifier for debugging
+          example: req_1234567890
     PredictionRequest:
       type: object
       required:
