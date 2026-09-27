@@ -57,8 +57,8 @@ x-enrichment:
 tags:
 - Company
 - Artificial Intelligence
-- Machine-Learning
-- Image-Generation
+- Machine Learning
+- Image Generation
 - Video Generation
 - Generative AI
 - Model Optimization
@@ -74,6 +74,8 @@ tags_raw:
 - Model Optimization
 - Inference
 - Developer Tools
+- Machine-Learning
+- Image-Generation
 apis:
 - aid: pruna-ai:pruna-ai-content-delivery-api
   name: Pruna AI Content Delivery API

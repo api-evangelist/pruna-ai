@@ -747,42 +747,93 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  schemas:
+    PredictionResponse:
+      type: object
+      required:
+      - id
+      - model
+      - input
+      - get_url
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the prediction
+          example: 1zww7deyssrme0csqwr90phzzr
+        model:
+          type: string
+          description: Model identifier used for this prediction
+          example: vace
+        input:
+          type: object
+          description: The input parameters provided for this prediction
+          additionalProperties: true
+        get_url:
+          type: string
+          format: uri
+          description: URL to check prediction status
+          example: https://api.pruna.ai/v1/predictions/status/1zww7deyssrme0csqwr90phzzr
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: string
+              description: Additional error context
+        request_id:
+          type: string
+          description: Unique request identifier for debugging
+          example: req_1234567890
+    PredictionStatusResponse:
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          description: Current status of the prediction
+          enum:
+          - starting
+          - processing
+          - succeeded
+          - failed
+          - canceled
+          example: processing
+        generation_url:
+          type: string
+          description: URL to download the generated content (available when status is 'succeeded')
+          example: https://api.pruna.ai/v1/predictions/delivery/xezq/52UGYRrRfqViaKmvYsEnENTh0qLDAWHptQ8jOnEHu7XC6AtKA/output.mp4
+        message:
+          type: string
+          description: Status message
+          example: Generation in progress
+        error:
+          type: string
+          description: Error details (available when status is 'failed')
+          example: Number of samples, -5, must be non-negative.
+    PredictionRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: object
+          description: Model-specific input parameters
+          additionalProperties: true
   responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: AUTHENTICATION_FAILED
-              message: Invalid or missing API key
-              details: Include your API key in the 'apikey' header
-            request_id: req_1234567890
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: INTERNAL_ERROR
-              message: An unexpected error occurred
-              details: Please try again later or contact support if the problem persists
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: NOT_FOUND
-              message: The requested resource was not found
-              details: Prediction ID does not exist or has expired
-            request_id: req_1234567890
     BadRequest:
       description: Invalid request parameters
       content:
@@ -794,6 +845,18 @@ components:
               code: VALIDATION_ERROR
               message: Invalid request parameters
               details: Field 'model' is required
+            request_id: req_1234567890
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: NOT_FOUND
+              message: The requested resource was not found
+              details: Prediction ID does not exist or has expired
             request_id: req_1234567890
     ValidationError:
       description: Request validation failed - invalid input parameters
@@ -867,92 +930,29 @@ components:
                 - type: missing
                   field: input.prompt
                   description: Field required
-  schemas:
-    PredictionStatusResponse:
-      type: object
-      required:
-      - status
-      properties:
-        status:
-          type: string
-          description: Current status of the prediction
-          enum:
-          - starting
-          - processing
-          - succeeded
-          - failed
-          - canceled
-          example: processing
-        generation_url:
-          type: string
-          description: URL to download the generated content (available when status is 'succeeded')
-          example: https://api.pruna.ai/v1/predictions/delivery/xezq/52UGYRrRfqViaKmvYsEnENTh0qLDAWHptQ8jOnEHu7XC6AtKA/output.mp4
-        message:
-          type: string
-          description: Status message
-          example: Generation in progress
-        error:
-          type: string
-          description: Error details (available when status is 'failed')
-          example: Number of samples, -5, must be non-negative.
-    PredictionResponse:
-      type: object
-      required:
-      - id
-      - model
-      - input
-      - get_url
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the prediction
-          example: 1zww7deyssrme0csqwr90phzzr
-        model:
-          type: string
-          description: Model identifier used for this prediction
-          example: vace
-        input:
-          type: object
-          description: The input parameters provided for this prediction
-          additionalProperties: true
-        get_url:
-          type: string
-          format: uri
-          description: URL to check prediction status
-          example: https://api.pruna.ai/v1/predictions/status/1zww7deyssrme0csqwr90phzzr
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: string
-              description: Additional error context
-        request_id:
-          type: string
-          description: Unique request identifier for debugging
-          example: req_1234567890
-    PredictionRequest:
-      type: object
-      required:
-      - input
-      properties:
-        input:
-          type: object
-          description: Model-specific input parameters
-          additionalProperties: true
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: AUTHENTICATION_FAILED
+              message: Invalid or missing API key
+              details: Include your API key in the 'apikey' header
+            request_id: req_1234567890
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: INTERNAL_ERROR
+              message: An unexpected error occurred
+              details: Please try again later or contact support if the problem persists
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
