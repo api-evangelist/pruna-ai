@@ -748,55 +748,15 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    PredictionResponse:
+    PredictionRequest:
       type: object
       required:
-      - id
-      - model
       - input
-      - get_url
       properties:
-        id:
-          type: string
-          description: Unique identifier for the prediction
-          example: 1zww7deyssrme0csqwr90phzzr
-        model:
-          type: string
-          description: Model identifier used for this prediction
-          example: vace
         input:
           type: object
-          description: The input parameters provided for this prediction
+          description: Model-specific input parameters
           additionalProperties: true
-        get_url:
-          type: string
-          format: uri
-          description: URL to check prediction status
-          example: https://api.pruna.ai/v1/predictions/status/1zww7deyssrme0csqwr90phzzr
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: string
-              description: Additional error context
-        request_id:
-          type: string
-          description: Unique request identifier for debugging
-          example: req_1234567890
     PredictionStatusResponse:
       type: object
       required:
@@ -824,40 +784,79 @@ components:
           type: string
           description: Error details (available when status is 'failed')
           example: Number of samples, -5, must be non-negative.
-    PredictionRequest:
+    Error:
       type: object
       required:
-      - input
+      - error
       properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: string
+              description: Additional error context
+        request_id:
+          type: string
+          description: Unique request identifier for debugging
+          example: req_1234567890
+    PredictionResponse:
+      type: object
+      required:
+      - id
+      - model
+      - input
+      - get_url
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the prediction
+          example: 1zww7deyssrme0csqwr90phzzr
+        model:
+          type: string
+          description: Model identifier used for this prediction
+          example: vace
         input:
           type: object
-          description: Model-specific input parameters
+          description: The input parameters provided for this prediction
           additionalProperties: true
+        get_url:
+          type: string
+          format: uri
+          description: URL to check prediction status
+          example: https://api.pruna.ai/v1/predictions/status/1zww7deyssrme0csqwr90phzzr
   responses:
-    BadRequest:
-      description: Invalid request parameters
+    Unauthorized:
+      description: Authentication failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           example:
             error:
-              code: VALIDATION_ERROR
-              message: Invalid request parameters
-              details: Field 'model' is required
+              code: AUTHENTICATION_FAILED
+              message: Invalid or missing API key
+              details: Include your API key in the 'apikey' header
             request_id: req_1234567890
-    NotFound:
-      description: Resource not found
+    InternalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           example:
             error:
-              code: NOT_FOUND
-              message: The requested resource was not found
-              details: Prediction ID does not exist or has expired
-            request_id: req_1234567890
+              code: INTERNAL_ERROR
+              message: An unexpected error occurred
+              details: Please try again later or contact support if the problem persists
     ValidationError:
       description: Request validation failed - invalid input parameters
       content:
@@ -930,29 +929,30 @@ components:
                 - type: missing
                   field: input.prompt
                   description: Field required
-    Unauthorized:
-      description: Authentication failed
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           example:
             error:
-              code: AUTHENTICATION_FAILED
-              message: Invalid or missing API key
-              details: Include your API key in the 'apikey' header
+              code: NOT_FOUND
+              message: The requested resource was not found
+              details: Prediction ID does not exist or has expired
             request_id: req_1234567890
-    InternalServerError:
-      description: Internal server error
+    BadRequest:
+      description: Invalid request parameters
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           example:
             error:
-              code: INTERNAL_ERROR
-              message: An unexpected error occurred
-              details: Please try again later or contact support if the problem persists
+              code: VALIDATION_ERROR
+              message: Invalid request parameters
+              details: Field 'model' is required
+            request_id: req_1234567890
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
