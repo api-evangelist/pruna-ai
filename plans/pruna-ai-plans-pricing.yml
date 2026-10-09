@@ -1,0 +1,226 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://www.pruna.ai/pricing
+sources:
+- https://www.pruna.ai/pricing
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T104522
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: per-call
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-07'
+published: true
+note: Per-model API usage prices; some models share identical price text (e.g. P-Video-Animate $0.03 /
+  second). Inference Providers may get preferential prices via contact.
+plan_count: 14
+currency: USD
+plans:
+- name: P-Video-2-Pro
+  price_text: $0.01 / second
+  price: 0.01
+  currency: USD
+  period: per-use
+  unit: second
+- name: P-Video-2
+  price_text: $0.025 / second
+  price: 0.025
+  currency: USD
+  period: per-use
+  unit: second
+- name: P-Video-Edit
+  price_text: $0.045 / second
+  price: 0.045
+  currency: USD
+  period: per-use
+  unit: second
+- name: P-Image-Ideogram
+  price_text: $0.015 / second
+  price: 0.015
+  currency: USD
+  period: per-use
+  unit: second
+- name: P-Image-Try-On
+  price_text: $0.015 / first garment & $0.008 / additional garment
+  currency: USD
+  period: per-use
+  unit: garment
+- name: P-Video-Replace
+  price_text: $0.03 / second
+  price: 0.03
+  currency: USD
+  period: per-use
+  unit: second
+- name: P-Video-Avatar
+  price_text: $0.025 / second
+  price: 0.025
+  currency: USD
+  period: per-use
+  unit: second
+- name: P-Video
+  price_text: $0.02 / second
+  price: 0.02
+  currency: USD
+  period: per-use
+  unit: second
+- name: P-Image-Upscale
+  price_text: $0.10 / 8MP upscale
+  price: 0.1
+  currency: USD
+  period: per-use
+  unit: 8MP upscale
+- name: P-Image
+  price_text: $0.005 / image output
+  price: 0.005
+  currency: USD
+  period: per-use
+  unit: image output
+- name: P-Image-Edit
+  price_text: $0.010 / image output
+  price: 0.01
+  currency: USD
+  period: per-use
+  unit: image output
+- name: P-Image LoRA
+  price_text: $0.005 / image ouput
+  price: 0.005
+  currency: USD
+  period: per-use
+  unit: image output
+- name: P-Image Trainer
+  price_text: $1.80 / 1000 steps
+  price: 1.8
+  currency: USD
+  period: per-use
+  unit: 1000 steps
+- name: P-Image-Edit Trainer
+  price_text: $4.00 / 1000 steps
+  price: 4
+  currency: USD
+  period: per-use
+  unit: 1000 steps
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - subscription
+  units:
+  - compute
+  plans:
+  - name: P-Video-2-Pro
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: P-Video-2
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: P-Video-Edit
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: P-Image-Ideogram
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: P-Image-Try-On
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: P-Video-Replace
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: P-Video-Avatar
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: P-Video
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: P-Image-Upscale
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: P-Image
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: P-Image-Edit
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: P-Image LoRA
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: P-Image Trainer
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: P-Image-Edit Trainer
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
