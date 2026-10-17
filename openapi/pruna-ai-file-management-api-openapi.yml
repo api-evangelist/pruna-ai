@@ -126,18 +126,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: AUTHENTICATION_FAILED
-              message: Invalid or missing API key
-              details: Include your API key in the 'apikey' header
-            request_id: req_1234567890
     InternalServerError:
       description: Internal server error
       content:
@@ -177,6 +165,18 @@ components:
           schema:
             type: string
           example: '42'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: AUTHENTICATION_FAILED
+              message: Invalid or missing API key
+              details: Include your API key in the 'apikey' header
+            request_id: req_1234567890
   schemas:
     FileUploadResponse:
       type: object

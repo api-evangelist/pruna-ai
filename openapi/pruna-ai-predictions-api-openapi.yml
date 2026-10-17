@@ -748,18 +748,17 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    NotFound:
-      description: Resource not found
+    InternalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           example:
             error:
-              code: NOT_FOUND
-              message: The requested resource was not found
-              details: Prediction ID does not exist or has expired
-            request_id: req_1234567890
+              code: INTERNAL_ERROR
+              message: An unexpected error occurred
+              details: Please try again later or contact support if the problem persists
     BadRequest:
       description: Invalid request parameters
       content:
@@ -771,18 +770,6 @@ components:
               code: VALIDATION_ERROR
               message: Invalid request parameters
               details: Field 'model' is required
-            request_id: req_1234567890
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: AUTHENTICATION_FAILED
-              message: Invalid or missing API key
-              details: Include your API key in the 'apikey' header
             request_id: req_1234567890
     ValidationError:
       description: Request validation failed - invalid input parameters
@@ -856,42 +843,40 @@ components:
                 - type: missing
                   field: input.prompt
                   description: Field required
-    InternalServerError:
-      description: Internal server error
+    Unauthorized:
+      description: Authentication failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           example:
             error:
-              code: INTERNAL_ERROR
-              message: An unexpected error occurred
-              details: Please try again later or contact support if the problem persists
+              code: AUTHENTICATION_FAILED
+              message: Invalid or missing API key
+              details: Include your API key in the 'apikey' header
+            request_id: req_1234567890
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: NOT_FOUND
+              message: The requested resource was not found
+              details: Prediction ID does not exist or has expired
+            request_id: req_1234567890
   schemas:
-    Error:
+    PredictionRequest:
       type: object
       required:
-      - error
+      - input
       properties:
-        error:
+        input:
           type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: string
-              description: Additional error context
-        request_id:
-          type: string
-          description: Unique request identifier for debugging
-          example: req_1234567890
+          description: Model-specific input parameters
+          additionalProperties: true
     PredictionResponse:
       type: object
       required:
@@ -917,6 +902,30 @@ components:
           format: uri
           description: URL to check prediction status
           example: https://api.pruna.ai/v1/predictions/status/1zww7deyssrme0csqwr90phzzr
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: string
+              description: Additional error context
+        request_id:
+          type: string
+          description: Unique request identifier for debugging
+          example: req_1234567890
     PredictionStatusResponse:
       type: object
       required:
@@ -944,15 +953,6 @@ components:
           type: string
           description: Error details (available when status is 'failed')
           example: Number of samples, -5, must be non-negative.
-    PredictionRequest:
-      type: object
-      required:
-      - input
-      properties:
-        input:
-          type: object
-          description: Model-specific input parameters
-          additionalProperties: true
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
