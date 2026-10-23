@@ -294,3 +294,9 @@ components:
 externalDocs:
   description: Model Documentation
   url: https://docs.api.pruna.ai
+x-provenance:
+  method: harvested
+  publisher: Pruna AI
+  source: https://docs.api.pruna.ai/openapi.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
